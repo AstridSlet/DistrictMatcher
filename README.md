@@ -42,4 +42,4 @@ If you have any questions regarding the project itself or the code implementatio
 
 ## Acknowledgements
 * [Open Data DK](https://www.opendata.dk/city-of-copenhagen/bydele) for providing the code for the districts of Copenhagen. 
-* [Nicole Dwenger & Orla Mallong](https://github.com/nicole-dwenger/cdsspatial-preprocessing.git) for project inspiration
+* [Nicole Dwenger & Orla Mallon](https://github.com/nicole-dwenger/cdsspatial-preprocessing.git) for project inspiration
