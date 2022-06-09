@@ -1,0 +1,4 @@
+FID,navn,adresse,post_nr,postdistrikt,e_mail,link,id,wkb_geometry
+museer.1,Thorvaldsens Museum,Bertel Thorvaldsens Plads 2,1213,København K,thm@thorvaldsensmuseum.dk,http://www.thorvaldsensmuseum.dk/,3,POINT (12.57828311124926 55.676532830461234)
+museer.2,Nikolaj Kunsthal,Nikolaj Plads 10,1067,København K,info@nikolajkunsthal.dk,http://nikolajkunsthal.dk/,1,POINT (12.581474418386874 55.678790927330944)
+museer.3,Københavns Museum,Stormgade 18,1555,København V,museum@kff.kk.dk,http://cphmuseum.kk.dk/,2,POINT (12.572613979301401 55.67426478391609)
