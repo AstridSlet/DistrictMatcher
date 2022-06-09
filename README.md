@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/DaDebias/cool_programmer_tshirts2.0">
-    <img src="/img/logo.png" alt="Logo" width=150 height=150>
+    <img src="/img/logo.png" alt="Logo" width=100 height=100>
   </a>
   
   <h1 align="center">Exam Project: Human Computer Interaction</h1> 
