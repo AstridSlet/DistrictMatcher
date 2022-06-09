@@ -31,8 +31,8 @@ git clone https://github.com/AstridSlet/DistrictMatcher.git
 cd /DistrictMatcher
 pip install -r requirements.txt
 ```
-Note that it is recommended to install streamlit in its own virtual environment.
-When you have activate the environment, the app can be run with:
+Note that it is recommended to install streamlit in its own [virtual environment]([https://www.opendata.dk/city-of-copenhagen/bydele](https://docs.streamlit.io/library/get-started/installation)).
+When you have activated the environment, the app can be run with:
 ``` 
 streamlit run matcher.py --theme.primaryColor="#045a8d" --theme.backgroundColor="#F0EABB" --theme.font="serif"
 ```
