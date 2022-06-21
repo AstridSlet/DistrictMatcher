@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/DaDebias/cool_programmer_tshirts2.0">
-    <img src="/img/logo.png" alt="Logo" width=150 height=150>
+    <img src="/img/logo.png" alt="Logo" width=100 height=100>
   </a>
   
   <h1 align="center">Exam Project: Human Computer Interaction</h1> 
@@ -31,8 +31,8 @@ git clone https://github.com/AstridSlet/DistrictMatcher.git
 cd /DistrictMatcher
 pip install -r requirements.txt
 ```
-Note that it is recommended to install streamlit in its own virtual environment.
-When you have activate the environment, the app can be run with:
+Note that it is recommended to install streamlit in its own [virtual environment]([https://www.opendata.dk/city-of-copenhagen/bydele](https://docs.streamlit.io/library/get-started/installation)).
+When you have activated the environment, the app can be run with:
 ``` 
 streamlit run matcher.py --theme.primaryColor="#045a8d" --theme.backgroundColor="#F0EABB" --theme.font="serif"
 ```
@@ -42,4 +42,4 @@ If you have any questions regarding the project itself or the code implementatio
 
 ## Acknowledgements
 * [Open Data DK](https://www.opendata.dk/city-of-copenhagen/bydele) for providing the code for the districts of Copenhagen. 
-* [Nicole Dwenger & Orla Mallong](https://github.com/nicole-dwenger/cdsspatial-preprocessing.git) for project inspiration
+* [Nicole Dwenger & Orla Mallon](https://github.com/nicole-dwenger/cdsspatial-preprocessing.git) for project inspiration
