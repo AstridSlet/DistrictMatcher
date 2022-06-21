@@ -1,3 +1,4 @@
+from faulthandler import disable
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
@@ -9,6 +10,108 @@ import numpy as np
 
 # SETTING PAGE CONFIG TO WIDE MODE AND ADDING A TITLE AND FAVICON
 st.set_page_config(layout="wide", page_title="CityExplorer")
+
+# intitialise session state variables
+if "w_security" not in st.session_state:
+    st.session_state['w_security'] = 0
+
+if "w_rent" not in st.session_state:
+    st.session_state['w_rent'] = 0
+
+if "w_nightlife" not in st.session_state:
+    st.session_state['w_nightlife'] = 0 
+
+if "w_culture" not in st.session_state:
+    st.session_state['w_culture'] = 0
+
+if "w_nature" not in st.session_state:
+    st.session_state['w_nature'] = 0
+
+if "w_shopping" not in st.session_state:
+    st.session_state['w_shopping'] = 0
+
+
+# functions for checking sum of sliders
+def check_security():
+    all_points = st.session_state.sho + st.session_state.cul + st.session_state.sec + st.session_state.ren + st.session_state.nat + st.session_state.nigh
+    if all_points >100:
+        st.warning('You can only distribute a maximum of 100 percent points. The other sliders were therefore reset.')
+        st.session_state.cul = 0
+        st.session_state.ren = 0
+        st.session_state.nigh = 0
+        st.session_state.nat = 0
+        st.session_state.sho = 0        
+    else:
+        pass
+
+def check_culture():
+    all_points = st.session_state.sho + st.session_state.cul + st.session_state.sec + st.session_state.ren + st.session_state.nat + st.session_state.nigh
+    if all_points >100:
+        st.warning('You can only distribute a maximum of 100 percent points. The other sliders were therefore reset.')
+        st.session_state.sec = 0
+        st.session_state.ren = 0
+        st.session_state.nigh = 0
+        st.session_state.nat = 0
+        st.session_state.sho = 0        
+    else:
+        pass
+
+def check_nature():
+    all_points = st.session_state.sho + st.session_state.cul + st.session_state.sec + st.session_state.ren + st.session_state.nat + st.session_state.nigh
+    if all_points >100:
+        st.warning('You can only distribute a maximum of 100 percent points. The other sliders were therefore reset.')
+        st.session_state.sec = 0
+        st.session_state.ren = 0
+        st.session_state.nigh = 0
+        st.session_state.cul = 0
+        st.session_state.sho = 0        
+    else:
+        pass
+
+def check_shopping():
+    all_points = st.session_state.sho + st.session_state.cul + st.session_state.sec + st.session_state.ren + st.session_state.nat + st.session_state.nigh
+    if all_points >100:
+        st.warning('You can only distribute a maximum of 100 percent points. The other sliders were therefore reset.')
+        st.session_state.sec = 0
+        st.session_state.ren = 0
+        st.session_state.nigh = 0
+        st.session_state.nat = 0
+        st.session_state.cul = 0        
+    else:
+        pass
+
+def check_nightlife():
+    all_points = st.session_state.sho + st.session_state.cul + st.session_state.sec + st.session_state.ren + st.session_state.nat + st.session_state.nigh
+    if all_points >100:
+        st.warning('You can only distribute a maximum of 100 percent points. The other sliders were therefore reset.')
+        st.session_state.sec = 0
+        st.session_state.ren = 0
+        st.session_state.cul = 0
+        st.session_state.nat = 0
+        st.session_state.sho = 0        
+    else:
+        pass
+
+def check_rent():
+    all_points = st.session_state.sho + st.session_state.cul + st.session_state.sec + st.session_state.ren + st.session_state.nat + st.session_state.nigh
+    if all_points >100:
+        st.warning('You can only distribute a maximum of 100 percent points. The other sliders were therefore reset.')
+        st.session_state.sec = 0
+        st.session_state.cul = 0
+        st.session_state.nigh = 0
+        st.session_state.nat = 0
+        st.session_state.sho = 0        
+    else:
+        pass
+
+# create reset function for reset button
+def reset_func():
+    st.session_state.sec = 0
+    st.session_state.cul = 0
+    st.session_state.nigh = 0
+    st.session_state.nat = 0
+    st.session_state.sho = 0
+    st.session_state.ren = 0
 
 #@st.cache    
 # Load spatial data
@@ -36,12 +139,10 @@ df['coordinates'] = all_coords
 df["attractiveness"] = np.random.random(10) # assign random float between 0 and 1 to test coloring
 df["attractiveness"] = df["attractiveness"].round(2)
 
-
-
 col1_0, col2_0 = st.columns([9,1])
 with col1_0:
     st.title("Moving to Copenhagen?")
-    st.subheader("Find the district that matches your needs.")
+    st.subheader("Find the district that suit your needs.")
 with col2_0:
     st.image(os.path.join('img','logo.png'), width=100)
 
@@ -50,7 +151,7 @@ with col2_0:
 # TOP SECTION
 col1_1, col2_1, col3_1 = st.columns(3)
 
-# define options
+# define options for selectsliders
 opts = range(0,110, 10)
 
 with col1_1:
@@ -58,26 +159,24 @@ with col1_1:
     st.write(" ")
     st.write("Whether you are looking to move to Copenhagen for the first time, or have a wish to find a new area to live in, this tool can help guide your search for a new home.")
     st.write("Use the sliders to indicate how important each of the parameters are to you.")
-    st.write("You can distribute 100 points between the six variables that are displayed.")
+    st.write("You can distribute **100 percent points** between the six variables that are displayed.")
     st.write("The map below will then display which areas best matches your preferences.")
 
+
 # explanatory texts 
-security_help = 'Based on number of crimes per inhabitatnt in the area.'
+security_help = 'Based on number of crimes per inhabitant in the area.'
 rent_help = 'Based on average cost per square meter in rented apartments of the area.'
 nightlife_help = 'Based on number of bars and restaurants in the area.'
 with col2_1: 
     st.markdown("---")   
-    w_security = st.select_slider(
-        'Security',
-        options=opts, help=security_help, value = 0)
+    w_security= st.select_slider(label = 'Security',
+        options=opts, value = 0, key = 'sec', help=security_help, on_change = check_security)
 
-    w_rent = st.select_slider(
-        'Rent',
-        options=opts, help=rent_help, value = 0)
+    w_rent = st.select_slider( label ='Low rent',
+        options=opts, value = 0, key = 'ren', help=rent_help, on_change = check_rent)
 
-    w_nightlife = st.select_slider(
-        'Bars/restaurants',
-        options=opts, help=nightlife_help, value = 0)
+    w_nightlife = st.select_slider( label = 'Bars/restaurants',
+        options=opts, value = 0, key = 'nigh', help=nightlife_help, on_change = check_nightlife)
 
 # explanatory texts 
 culture_help = 'Based on number of theaters, cinemas and museums in the area.'
@@ -86,26 +185,38 @@ shopping_help = 'Based on number of supermarkets and retailstores in the area.'
 
 with col3_1:  
     st.markdown("---") 
-    w_culture = st.select_slider("Culture",
-        options=opts, help=culture_help, value = 20)
+    w_culture = st.select_slider(label = 'Culture',
+        options=opts, value = 0, key = 'cul', help=culture_help, on_change = check_culture)
 
-    w_nature = st.select_slider(
-        'Nature',
-        options=opts, help=nature_help, value = 20)
+    w_nature = st.select_slider( label = 'Nature',
+        options=opts, value = 0, key = 'nat', help=nature_help, on_change = check_nature)
 
-    w_shopping = st.select_slider(
-        'Shopping',
-        options=opts, help=shopping_help, value = 60)
+    w_shopping = st.select_slider( label = 'Shopping',
+        options=opts, value = 0, key = 'sho', help=shopping_help, on_change = check_shopping)
+
+########## Inform user about how many points they have used ########
+col_a, col_b = st.columns([1, 0.15])
+with col_a:
+    distributed_points = st.session_state.sho + st.session_state.cul + st.session_state.sec + st.session_state.ren + st.session_state.nat + st.session_state.nigh
+
+    st.write(f"**Distributed points: {distributed_points}**")
+    if distributed_points < 100:
+        st.write(f"**You still need to distribute {100-distributed_points} points!**")
+    elif distributed_points == 100:
+        st.write(f"**You have distributed the correct amount of points.**")
+        st.write(f"**Go explore the map below!**")
+    else:
+        pass
+
+with col_b:
+    st.markdown(" ")
+    st.markdown(" ")
+    reset_button = st.button('Reset sliders', on_click = reset_func)
 
 
-########## Defining attractiveness based on sliders ########
-
+### UPDATING MATCH SCORES IN THE MAP #####
 # gather the weights in list
-weights = [w_security, w_rent, w_nightlife, w_culture, w_nature, w_shopping]
-
-# make updates to other weights based on the last update
-####here some code will come that will make sure that the sliders can have a maximum of 100 
-
+weights = [st.session_state.sec, st.session_state.ren, st.session_state.nigh, st.session_state.cul, st.session_state.nat, st.session_state.sho]
 
 # update match scores
 def get_score(data, weight_list):
@@ -126,9 +237,13 @@ def get_score(data, weight_list):
 # update attractiveness scores for the ten districts using the weights list
 df = get_score(df, weights)
 
-# get top match 
-top_match_idx = df['attractiveness'].idxmax()
-top_match = df.iloc[top_match_idx, 0]
+# get top 3 match 
+top_match_idx = df['attractiveness'].nlargest(3).index.tolist()
+
+top_match1 = df.iloc[top_match_idx[0], 0]
+top_match2 = df.iloc[top_match_idx[1], 0]
+top_match3 = df.iloc[top_match_idx[2], 0]
+
 
 
 ########## Defining stuff for the map ########
@@ -210,12 +325,14 @@ tooltip = {"html": "<strong> Area: {district} </strong> <br> <strong> Match: {at
 
 
 ######## Plotting the map section in streamlit ########
-col1_2, col2_2,col2_3 = st.columns([1, 2, 0.2])
+col1_2, col2_2,col2_3 = st.columns([1, 2, 0.4])
 
 with col1_2:
     st.markdown("---")
-    st.markdown('##### The area that best matches your wishes is:')
-    st.write(top_match)
+    st.markdown('##### Your top 3 areas:')
+    st.write(f"1. {top_match1}")
+    st.write(f"2. {top_match2}")
+    st.write(f"3. {top_match3}")
     
     #st.write('If you want to learn more about the area, you can read more **here**.')
 
@@ -223,19 +340,28 @@ with col1_2:
 
 with col2_2:
     st.markdown("---")
+    st.write("**Explore the map to learn more about the different districts!**")
     # Plotting the map 
     st.pydeck_chart(pdk.Deck(
         polygon_layer,
         initial_view_state=view_state,
         map_style=pdk.map_styles.LIGHT,
         tooltip=tooltip))
-    st.write("Explore the map and discover how well the boroughs match your preferences!")
+    
 
 with col2_3:
     st.write(" ")
     st.write(" ")
     st.write(" ")
     st.write(" ")
+    st.write("**Match scores**")
     st.image(os.path.join('img','legend.png'), width=100)
 
+
+def plus_one():
+    if st.session_state["slider"] < 10:
+        st.session_state.slider += 1
+    else:
+        pass
+    return
 
