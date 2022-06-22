@@ -6,6 +6,7 @@ import os
 import geopandas as gpd
 from urllib.error import URLError
 import numpy as np
+from pathlib import Path
 
 
 # SETTING PAGE CONFIG TO WIDE MODE AND ADDING A TITLE AND FAVICON
@@ -30,6 +31,23 @@ if "w_nature" not in st.session_state:
 if "w_shopping" not in st.session_state:
     st.session_state['w_shopping'] = 0
 
+# function for listing all file names
+def getListOfFiles(dirName, idx_list):
+    # create a list of file and sub directories 
+    # names in the given directory 
+    listOfFile = os.listdir(dirName)
+    allFiles = list()
+    # Iterate over all the entries
+    for entry in listOfFile:
+        # Create full path
+        fullPath = os.path.join(dirName, entry)
+        for id in idx_list:
+            if Path(fullPath).stem.startswith(id):
+                allFiles.append(fullPath)
+                #st.write(fullPath)
+            else:
+                pass
+    return allFiles
 
 # functions for checking sum of sliders
 def check_security():
@@ -244,6 +262,17 @@ top_match1 = df.iloc[top_match_idx[0], 0]
 top_match2 = df.iloc[top_match_idx[1], 0]
 top_match3 = df.iloc[top_match_idx[2], 0]
 
+id1 = str(top_match_idx[0])
+id2 = str(top_match_idx[1])
+id3 = str(top_match_idx[2])
+idxList = [id1, id2, id3]
+#st.write(idxList)
+#idx_list = ["1", "2"]
+# Get the list of all files in directory tree at given path
+dirName = os.path.join("data")
+listOfFiles = getListOfFiles(dirName, idxList)
+#st.write(len(listOfFiles))
+#st.write(listOfFiles[0])
 
 
 ########## Defining stuff for the map ########
@@ -325,20 +354,60 @@ tooltip = {"html": "<strong> Area: {district} </strong> <br> <strong> Match: {at
 
 
 ######## Plotting the map section in streamlit ########
-col1_2, col2_2,col2_3 = st.columns([1, 2, 0.4])
+colx_1, colx_2,colx_3, colx_4, colx_5 = st.columns([0.4,0.4,0.4, 1.2, 0.3])
 
-with col1_2:
+with colx_1:
     st.markdown("---")
     st.markdown('##### Your top 3 areas:')
     st.write(f"1. {top_match1}")
     st.write(f"2. {top_match2}")
     st.write(f"3. {top_match3}")
+    st.write("**Available apartments:**")
+    st.image(listOfFiles[0])
+    st.image(listOfFiles[1])
     
-    #st.write('If you want to learn more about the area, you can read more **here**.')
+with colx_2:
+    st.markdown("---")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.image(listOfFiles[2])
+    st.image(listOfFiles[3])
 
+with colx_3:
+    st.markdown("---")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
+    st.image(listOfFiles[4])
+    st.image(listOfFiles[5])
     
 
-with col2_2:
+with colx_4:
     st.markdown("---")
     st.write("**Explore the map to learn more about the different districts!**")
     # Plotting the map 
@@ -349,11 +418,8 @@ with col2_2:
         tooltip=tooltip))
     
 
-with col2_3:
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
+with colx_5:
+    st.markdown("---")
     st.write("**Match scores**")
     st.image(os.path.join('img','legend.png'), width=100)
 
